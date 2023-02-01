@@ -65,6 +65,12 @@ public class ImageEncryption {
                 } // end inner for-loop
             } // end outer for-loop
             
+            // 2. Convert int array into byte array for encryption
+            ByteBuffer byteBuffer = ByteBuffer.allocate(colors.length * 4);        
+            IntBuffer intBuffer = byteBuffer.asIntBuffer();
+            intBuffer.put(total_pixels); //This is the wrong variable but using it to show what's happening
+            byte[] toBeEnc = byteBuffer.array();
+            
             
 
             
