@@ -8,11 +8,13 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.awt.image.DirectColorModel;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -20,6 +22,7 @@ import java.nio.IntBuffer;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
@@ -37,6 +40,8 @@ import javax.imageio.ImageIO;
  */
 public class ImageEncryption {
     
+
+    
     public static void encryption() throws IOException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         
         // Variables
@@ -51,25 +56,53 @@ public class ImageEncryption {
             
             BufferedImage image = ImageIO.read(inputFile); //reading in my input file
             
-            // 1. Store rgb values into array
-            int w = image.getWidth(); // width
-            int h = image.getHeight(); // height
-            int total_pixels = (h*w);
-            Color[] colors = new Color[total_pixels];
-            int i = 0;
-            // Collect RGB pixel data with nested for-loop
-            for (int x = 0; x < w; x++) {
-                for (int y = 0; y < h; y++) {
-                    colors[i] = new Color(image.getRGB(x, y));
-                    i++;
-                } // end inner for-loop
-            } // end outer for-loop
+            //Use RGB to convert method
+            int width = image.getWidth();
+            int height = image.getHeight();
+            int[][] result = new int[height][width];
+
+            for (int row = 0; row < height; row++) {
+                for (int col = 0; col < width; col++) {
+                    result[row][col] = image.getRGB(col, row);
+                }
+            }
+
+            System.out.println(Arrays.toString(result));
+
+
+  
             
-            // 2. Convert int array into byte array for encryption
-            ByteBuffer byteBuffer = ByteBuffer.allocate(colors.length * 4);        
-            IntBuffer intBuffer = byteBuffer.asIntBuffer();
-            intBuffer.put(total_pixels); //This is the wrong variable but using it to show what's happening
-            byte[] toBeEnc = byteBuffer.array();
+            
+//            // 1. Store rgb values into array
+//            int w = image.getWidth(); // width
+//            int h = image.getHeight(); // height
+//            int total_pixels = (h*w);
+//            Color[] colors = new Color[total_pixels];
+//            int i = 0;
+//            // Collect RGB pixel data with nested for-loop
+//            for (int x = 0; x < w; x++) {
+//                for (int y = 0; y < h; y++) {
+//                    colors[i] = new Color(image.getRGB(x, y));
+//                    i++;
+//                } // end inner for-loop
+//            } // end outer for-loop
+
+            byte[] buffer = new byte[result.length * result[0].length * Integer.BYTES];
+
+            for (int i = 0; i < result.length; i++) {
+                for (int j = 0; j < result[0].length; j++) {
+                    int index = (i * result[0].length + j) * Integer.BYTES;
+                    byte[] bytes = ByteBuffer.allocate(Integer.BYTES).putInt(result[i][j]).array();
+                    System.arraycopy(bytes, 0, buffer, index, Integer.BYTES);
+                }
+            }
+            System.out.println(Arrays.toString(buffer));
+//           
+//            // 2. Convert int array into byte array for encryption
+//            ByteBuffer byteBuffer = ByteBuffer.allocate(result.length * 4);        
+//            IntBuffer intBuffer = byteBuffer.asIntBuffer();
+//            intBuffer.put(result); //This is the wrong variable but using it to show what's happening
+//            byte[] toBeEnc = byteBuffer.array();
             
             try {
                 // 3. Set up AES cipher/key and begin encryption
@@ -100,20 +133,26 @@ public class ImageEncryption {
             // Encrypt cipher and key
             cipher.init(Cipher.ENCRYPT_MODE, key);
             // Send enc to new byte array
-            byte[] encBytes = cipher.doFinal(toBeEnc);
+            byte[] encBytes = cipher.doFinal(buffer);
            
-            // 4. Convert byte array back to int array
-            IntBuffer intBuf = ByteBuffer.wrap(encBytes).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
-            int[] encArray = new int[intBuf.remaining()];
-            intBuf.get(encArray);
-
-            // 5. Convert int array into file format
-            DataBuffer rgbData = new DataBufferInt(encArray, encArray.length);
-            WritableRaster raster = Raster.createPackedRaster(rgbData, w, h, w, new int[]{0xff0000, 0xff00, 0xff},null);
-            ColorModel colorModel = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-            BufferedImage img = new BufferedImage(colorModel, raster, false, null);
-            String fileName = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux-enc.png";
-            ImageIO.write(img, "png", new File(fileName));
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
+            System.out.println("Encrypted bytes");
+            System.out.println(Arrays.toString(encBytes));
+//            // 4. Convert byte array back to int array
+//            IntBuffer intBuf = ByteBuffer.wrap(encBytes).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
+//            int[] encArray = new int[intBuf.remaining()];
+//            intBuf.get(encArray);
+//
+//            // 5. Convert int array into file format
+//            DataBuffer rgbData = new DataBufferInt(encArray, encArray.length);
+//            WritableRaster raster = Raster.createPackedRaster(rgbData, w, h, w, new int[]{0xff0000, 0xff00, 0xff},null);
+//            ColorModel colorModel = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
+//            BufferedImage img = new BufferedImage(colorModel, raster, false, null);
+//            String fileName = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux-enc.png";
+//            ImageIO.write(img, "png", new File(fileName));
             
         } catch (IOException ex) {
             Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,4 +161,5 @@ public class ImageEncryption {
     
     } // end encryption method
     
+
 } // end ImageEncryption class

@@ -24,6 +24,7 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
+
             try {
                 ImageEncryption.encryption();
             } catch (FileNotFoundException ex) {
