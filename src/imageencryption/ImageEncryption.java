@@ -107,6 +107,13 @@ public class ImageEncryption {
             int[] encArray = new int[intBuf.remaining()];
             intBuf.get(encArray);
 
+            // 5. Convert int array into file format
+            DataBuffer rgbData = new DataBufferInt(encArray, encArray.length);
+            WritableRaster raster = Raster.createPackedRaster(rgbData, w, h, w, new int[]{0xff0000, 0xff00, 0xff},null);
+            ColorModel colorModel = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
+            BufferedImage img = new BufferedImage(colorModel, raster, false, null);
+            String fileName = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux-enc.png";
+            ImageIO.write(img, "png", new File(fileName));
             
         } catch (IOException ex) {
             Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
