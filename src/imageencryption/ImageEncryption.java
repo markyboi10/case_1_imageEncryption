@@ -102,6 +102,10 @@ public class ImageEncryption {
             // Send enc to new byte array
             byte[] encBytes = cipher.doFinal(toBeEnc);
            
+            // 4. Convert byte array back to int array
+            IntBuffer intBuf = ByteBuffer.wrap(encBytes).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
+            int[] encArray = new int[intBuf.remaining()];
+            intBuf.get(encArray);
 
             
         } catch (IOException ex) {
