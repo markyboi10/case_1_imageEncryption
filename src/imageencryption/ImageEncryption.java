@@ -71,7 +71,37 @@ public class ImageEncryption {
             intBuffer.put(total_pixels); //This is the wrong variable but using it to show what's happening
             byte[] toBeEnc = byteBuffer.array();
             
-            
+            try {
+                // 3. Set up AES cipher/key and begin encryption
+                cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoSuchPaddingException ex) {
+                Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Generating key . . .");
+            try {
+                // Get a key generator object and set the key size to 128 bits
+                keyGen = KeyGenerator.getInstance("AES");
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            keyGen.init(128);
+            // Generate the key
+            SecretKey key = keyGen.generateKey();
+            System.out.println("DONE");
+          
+            // Generate the IV for CBC mode
+            System.out.println("Generating IV . . .");
+            rand = new SecureRandom();
+            rand.nextBytes(rawIV); // Fill array with random bytes
+            iv = new IvParameterSpec(rawIV);
+            System.out.println("DONE");
+            // Encrypt cipher and key
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            // Send enc to new byte array
+            byte[] encBytes = cipher.doFinal(toBeEnc);
+           
 
             
         } catch (IOException ex) {
