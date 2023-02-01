@@ -57,17 +57,17 @@ public class ImageEncryption {
             BufferedImage image = ImageIO.read(inputFile); //reading in my input file
             
             //Use RGB to convert method
-            int width = image.getWidth();
-            int height = image.getHeight();
-            int[][] result = new int[height][width];
+            int w = image.getWidth();
+            int h = image.getHeight();
+            int[][] result = new int[h][w];
 
-            for (int row = 0; row < height; row++) {
-                for (int col = 0; col < width; col++) {
+            for (int row = 0; row < h; row++) {
+                for (int col = 0; col < w; col++) {
                     result[row][col] = image.getRGB(col, row);
                 }
             }
 
-            System.out.println(Arrays.toString(result));
+            //System.out.println(Arrays.toString(result));
 
 
   
@@ -96,7 +96,7 @@ public class ImageEncryption {
                     System.arraycopy(bytes, 0, buffer, index, Integer.BYTES);
                 }
             }
-            System.out.println(Arrays.toString(buffer));
+            //System.out.println(Arrays.toString(buffer));
 //           
 //            // 2. Convert int array into byte array for encryption
 //            ByteBuffer byteBuffer = ByteBuffer.allocate(result.length * 4);        
@@ -106,7 +106,7 @@ public class ImageEncryption {
             
             try {
                 // 3. Set up AES cipher/key and begin encryption
-                cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+                cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NoSuchPaddingException ex) {
@@ -140,20 +140,50 @@ public class ImageEncryption {
             System.out.println("");
             System.out.println("");
             System.out.println("Encrypted bytes");
-            System.out.println(Arrays.toString(encBytes));
-//            // 4. Convert byte array back to int array
-//            IntBuffer intBuf = ByteBuffer.wrap(encBytes).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
-//            int[] encArray = new int[intBuf.remaining()];
-//            intBuf.get(encArray);
-//
-//            // 5. Convert int array into file format
-//            DataBuffer rgbData = new DataBufferInt(encArray, encArray.length);
-//            WritableRaster raster = Raster.createPackedRaster(rgbData, w, h, w, new int[]{0xff0000, 0xff00, 0xff},null);
-//            ColorModel colorModel = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-//            BufferedImage img = new BufferedImage(colorModel, raster, false, null);
-//            String fileName = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux-enc.png";
-//            ImageIO.write(img, "png", new File(fileName));
+            //System.out.println(Arrays.toString(encBytes));
             
+            
+            
+//            int[][] result2 = new int[h][w];
+//
+//            for (int row = 0; row < h; row++) {
+//                for (int col = 0; col < w; col++) {
+//                    int index = (row * w + col) * 3;
+//                    int r = encBytes[index] & 0xFF;
+//                    int g = encBytes[index + 1] & 0xFF;
+//                    int b = encBytes[index + 2] & 0xFF;
+//                    result2[row][col] = (r << 16) | (g << 8) | b;
+//                }
+//            }
+
+            // 4. Convert byte array back to int array
+            IntBuffer intBuf = ByteBuffer.wrap(encBytes).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
+            int[] encArray = new int[intBuf.remaining()];
+            intBuf.get(encArray);
+
+            // 5. Convert int array into file format
+            DataBuffer rgbData = new DataBufferInt(encArray, encArray.length);
+            WritableRaster raster = Raster.createPackedRaster(rgbData, w, h, w, new int[]{0xff0000, 0xff00, 0xff},null);
+            ColorModel colorModel = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
+            BufferedImage img = new BufferedImage(colorModel, raster, false, null);
+            String fileName = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux-enc.png";
+            ImageIO.write(img, "png", new File(fileName));
+            
+//            String path = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux-enc.png";
+//            BufferedImage finalImage = new BufferedImage(result2.length, result2[0].length, BufferedImage.TYPE_INT_RGB);
+//            for (int x = 0; x < 200; x++) {
+//                for (int y = 0; y < 200; y++) {
+//                    finalImage.setRGB(x, y, result2[x][y]);
+//                }
+//            }
+//
+//            File ImageFile = new File(path);
+//            try {
+//                ImageIO.write(finalImage, "png", ImageFile);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
         } catch (IOException ex) {
             Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
         } // end try-catch
