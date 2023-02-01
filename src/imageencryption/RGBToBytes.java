@@ -22,19 +22,12 @@ public class RGBToBytes {
     
     public RGBToBytes() {
 
-//        try {
-////            File inputFile = new File("C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux.png"); // File to encrypt
-////            BufferedImage image = ImageIO.read(inputFile); // Reading in my input file using BufferedImage Class
-//        } catch (IOException ex) {
-//            Logger.getLogger(RGBToBytes.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
     }
 
     public static byte[] convertImgData2DToByte(BufferedImage image) {
 
         /*
-            Step 1. Read in file and use getRGB to read values into a 2D array
+        Step 1. Read in file and use getRGB to read values into a 2D array
          */
         int w = image.getWidth(); // Width of image
         int h = image.getHeight(); // Height of image
