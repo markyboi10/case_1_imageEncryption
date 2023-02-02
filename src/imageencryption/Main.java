@@ -6,6 +6,7 @@ package imageencryption;
 
 
 import UI.myGUI;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -65,23 +66,25 @@ public class Main {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 myGUI = new myGUI();
+                //myGUI.setPreferredSize(new Dimension(1000, 700));
                 myGUI.pack();
                 myGUI.setLocationRelativeTo(null);
+                
                 myGUI.setVisible(true);
                 myGUI.setTitle("Image Encryption Bot");
                 myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });
         
-        //RGBToBytes.convertImgData2DToByte(image);
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Press enter for ECB or type anything for CBC");
-        String input = scanner.nextLine();
-        if(input.isEmpty()) {
-            BytesToRGB.convertBytesToRGB_ECB();
-        } else {
-            BytesToRGB.convertBytesToRGB_CBC();
-        }
+//        //RGBToBytes.convertImgData2DToByte(image);
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Press enter for ECB or type anything for CBC");
+//        String input = scanner.nextLine();
+//        if(input.isEmpty()) {
+//            BytesToRGB.convertBytesToRGB_ECB();
+//        } else {
+//            BytesToRGB.convertBytesToRGB_CBC();
+//        }
 
     
         
