@@ -4,6 +4,8 @@
  */
 package imageencryption;
 
+
+import UI.myGUI;
 import static imageencryption.Main.image;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -34,7 +36,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.imageio.ImageIO;
-
+import lombok.Getter;
 /**
  *
  * @author Mark Case
@@ -43,10 +45,21 @@ public class ImageEncryption {
     
 
     
-    public static byte[] encryptionECB() throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException  {
-        
+      
+     // File f = path1;
+//    public static File inputFile = selFile1;
+//    public static BufferedImage image = null;
+  
+//    inputFile = selFile1; // File to encrypt
+    
+    
+
+    public byte[] encryptionECB() throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException  {
+       File f=myGUI.getSelFile1();
+  
+        image = ImageIO.read(f);
         // Objects
-        File inputFile = new File  ("C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux.png"); // File to encrypt
+        //File inputFile = selFile1; //new File  ("C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux.png"); // File to encrypt
         Cipher cipher = null; // The cipher object
         KeyGenerator keyGen = null; // The AES key generator
         SecureRandom rand; // A secure random number generator
@@ -90,7 +103,7 @@ public class ImageEncryption {
     
     } // end encryption method
     
-        public static byte[] encryptionCBC() throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException  {
+        public byte[] encryptionCBC() throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException  {
         
         // Objects
         File inputFile = new File  ("C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux.png"); // File to encrypt

@@ -4,15 +4,25 @@
  */
 package UI;
 
+import imageencryption.BytesToRGB;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -20,8 +30,22 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class myGUI extends javax.swing.JFrame {
     BufferedImage getImg;
-    private File selFile1;
-    private String path1;
+    public static File selFile1 = new File ("C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux.png");
+    @Getter @Setter public static String path1 = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux.png";
+
+    public static File getSelFile1() {
+        return selFile1;
+    }
+
+    public static void setSelFile1(File selFile1) {
+        myGUI.selFile1 = selFile1;
+    }
+
+
+BytesToRGB btRGB = new BytesToRGB();
+
+
+
     /**
      * Creates new form myGUI
      */
@@ -39,29 +63,17 @@ public class myGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         kGradientPanel1 = new keeptoo.KGradientPanel();
-        jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         kGradientPanel1.setkEndColor(new java.awt.Color(65, 67, 106));
         kGradientPanel1.setkStartColor(new java.awt.Color(152, 64, 99));
-
-        jPanel3.setBackground(new java.awt.Color(102, 102, 102));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jButton1.setText("Upload PNG");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -77,11 +89,27 @@ public class myGUI extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Decrypt CBC");
+        jButton3.setText("Encrypt CBC");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(102, 102, 102));
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setOpaque(true);
+
+        jButton4.setText("jButton4");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setBackground(new java.awt.Color(102, 102, 102));
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setOpaque(true);
 
         javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
         kGradientPanel1.setLayout(kGradientPanel1Layout);
@@ -97,23 +125,29 @@ public class myGUI extends javax.swing.JFrame {
                         .addGap(40, 40, 40)
                         .addComponent(jButton3))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(83, 83, 83)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(77, 77, 77))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                .addGap(333, 333, 333)
+                .addComponent(jButton4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         kGradientPanel1Layout.setVerticalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(kGradientPanel1Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addGap(66, 66, 66)
+                .addComponent(jButton4)
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -147,14 +181,55 @@ public class myGUI extends javax.swing.JFrame {
             } catch (IOException ex) {
                 System.out.println(ex);
             } // End try-catch
-
+            System.out.println(path1);
         } // End if
     }//GEN-LAST:event_jButton1ActionPerformed
 
+
+    
+    
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        
+        try {
+          
+            // TODO add your handling code here:
+            btRGB.convertBytesToRGB_ECB();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeyException ex) {
+            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalBlockSizeException ex) {
+            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadPaddingException ex) {
+            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+         try {
+            
+            // TODO add your handling code here:
+            btRGB.convertBytesToRGB_CBC();
+        } catch (IOException ex) {
+            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeyException ex) {
+            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalBlockSizeException ex) {
+            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadPaddingException ex) {
+            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        revalidate();
+        String fileName = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\image-enc.png";
+//        ImageIcon icon = new ImageIcon(fileName);
+//        selFile1 = getFile.getSelectedFile();
+//        path1 = fileName.getAbsolutePath();
+        jLabel2.setIcon(resize(fileName));
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Resize Image to JFrame
@@ -167,12 +242,20 @@ public class myGUI extends javax.swing.JFrame {
         return image;
     } // End resize
 
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel3;
+    public javax.swing.JLabel jLabel2;
     private keeptoo.KGradientPanel kGradientPanel1;
     // End of variables declaration//GEN-END:variables
+
+
 }
