@@ -1,31 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package imageencryption;
-
 
 import UI.myGUI;
 import static imageencryption.Main.image;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DirectColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
@@ -36,48 +18,41 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.imageio.ImageIO;
-import lombok.Getter;
+
 /**
  *
  * @author Mark Case
  */
 public class ImageEncryption {
     
-
     
-      
-     // File f = path1;
-//    public static File inputFile = selFile1;
-//    public static BufferedImage image = null;
-  
-//    inputFile = selFile1; // File to encrypt
-    
-    
-
-    public byte[] encryptionECB() throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException  {
-       File f=myGUI.getSelFile1();
-  
-        image = ImageIO.read(f);
+    public byte[] encryptionECB() throws BadPaddingException, IllegalBlockSizeException  {
+       
         // Objects
-        //File inputFile = selFile1; //new File  ("C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux.png"); // File to encrypt
+        File f = myGUI.getSelFile1(); // Retrieve selected file from GUI
+        try {
+            image = ImageIO.read(f); // Read it in with BufferedImage class
+        } catch (IOException ex) {
+            Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Cipher cipher = null; // The cipher object
         KeyGenerator keyGen = null; // The AES key generator
         SecureRandom rand; // A secure random number generator
-        byte[] rawIV = new byte[16]; // An AES init. vector
+        byte[] rawIV = new byte[16]; // An AES initialization vector
         IvParameterSpec iv; // The IV parameter for CBC
-
         // Btye array inheriting return value from method
         byte[] buffer = RGBToBytes.convertImgData2DToByte(image);
+        
         /*
         Step 3. Encryption of byte array
-         */
+        */
         try {
-            // 3. Set up AES cipher/key and begin encryption
+            // Set up AES cipher/key and begin encryption
             cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
             Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Generating key . . .");
+        System.out.println("Generating key for ECB . . .");
         try {
             // Get a key generator object and set the key size to 128 bits
             keyGen = KeyGenerator.getInstance("AES");
@@ -87,26 +62,21 @@ public class ImageEncryption {
         keyGen.init(128);
         // Generate the key
         SecretKey key = keyGen.generateKey();
-        System.out.println("DONE");
-        // Generate the IV for CBC mode
-        System.out.println("Generating IV . . .");
-        rand = new SecureRandom();
-        rand.nextBytes(rawIV); // Fill array with random bytes
-        iv = new IvParameterSpec(rawIV);
-        System.out.println("DONE");
-        cipher.init(Cipher.ENCRYPT_MODE, key); // Encrypt cipher and key
-        byte[] encBytes = cipher.doFinal(buffer);// Send enc to new byte array
+        System.out.println("DONE");  
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, key); // Encrypt cipher and key
+        } catch (InvalidKeyException ex) {
+            Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        byte[] encBytes = cipher.doFinal(buffer); // Send enc to new byte array
         
-        return encBytes;
+        return encBytes; // Return for BytesToRGB class
 
-        
+    } // End encryptionECB method
     
-    } // end encryption method
-    
-        public byte[] encryptionCBC() throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException  {
+        public byte[] encryptionCBC() throws  IllegalBlockSizeException, BadPaddingException  {
         
         // Objects
-        File inputFile = new File  ("C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux.png"); // File to encrypt
         Cipher cipher = null; // The cipher object
         KeyGenerator keyGen = null; // The AES key generator
         SecureRandom rand; // A secure random number generator
@@ -119,7 +89,7 @@ public class ImageEncryption {
         Step 3. Encryption of byte array
          */
         try {
-            // 3. Set up AES cipher/key and begin encryption
+            // Set up AES cipher/key and begin encryption
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
             Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,14 +111,15 @@ public class ImageEncryption {
         rand.nextBytes(rawIV); // Fill array with random bytes
         iv = new IvParameterSpec(rawIV);
         System.out.println("DONE");
-        cipher.init(Cipher.ENCRYPT_MODE, key); // Encrypt cipher and key
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, key, iv); // Encrypt cipher and key
+        } catch (InvalidAlgorithmParameterException | InvalidKeyException ex) {
+            Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
+        }
         byte[] encBytes = cipher.doFinal(buffer);// Send enc to new byte array
         
-        return encBytes;
+        return encBytes;// Return for BytesToRGB class
 
-        
-    
-    } // end encryption method
-    
+    } // End encryptionCBC method    
 
-} // end ImageEncryption class
+} // End ImageEncryption class
