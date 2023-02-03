@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package UI;
 
 import imageencryption.BytesToRGB;
@@ -18,33 +14,23 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
  * @author Mark Case
  */
 public class myGUI extends javax.swing.JFrame {
+    
+    // Objects
     BufferedImage getImg;
-    public static File selFile1 = new File ("C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux.png");
-    @Getter @Setter public static String path1 = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\tux.png";
-
-    public static File getSelFile1() {
-        return selFile1;
-    }
-
-    public static void setSelFile1(File selFile1) {
-        myGUI.selFile1 = selFile1;
-    }
+    @Getter public static File selFile1 = null; //lombok getter for simplicity
+    public static String path1 = null;
 
 
-BytesToRGB btRGB = new BytesToRGB();
-
-
+    BytesToRGB btRGB = new BytesToRGB(); // Access to methods from class
 
     /**
      * Creates new form myGUI
@@ -62,119 +48,147 @@ BytesToRGB btRGB = new BytesToRGB();
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        kGradientPanel1 = new keeptoo.KGradientPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        rootPanel = new keeptoo.KGradientPanel();
+        uploadPNG = new javax.swing.JButton();
+        encryptECB = new javax.swing.JButton();
+        encryptCBC = new javax.swing.JButton();
+        uploadLabel = new javax.swing.JLabel();
+        viewEncryption = new javax.swing.JButton();
+        encryptedImageLabel = new javax.swing.JLabel();
+        titleLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        kGradientPanel1.setkEndColor(new java.awt.Color(65, 67, 106));
-        kGradientPanel1.setkStartColor(new java.awt.Color(152, 64, 99));
+        rootPanel.setkEndColor(new java.awt.Color(65, 67, 106));
+        rootPanel.setkStartColor(new java.awt.Color(152, 64, 99));
 
-        jButton1.setText("Upload PNG");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        uploadPNG.setForeground(new java.awt.Color(254, 150, 103));
+        uploadPNG.setText("Upload PNG");
+        uploadPNG.setBorderPainted(false);
+        uploadPNG.setContentAreaFilled(false);
+        uploadPNG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                uploadPNGActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Encrypt ECB");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        encryptECB.setForeground(new java.awt.Color(254, 150, 103));
+        encryptECB.setText("Encrypt ECB");
+        encryptECB.setBorderPainted(false);
+        encryptECB.setContentAreaFilled(false);
+        encryptECB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                encryptECBActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Encrypt CBC");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        encryptCBC.setForeground(new java.awt.Color(254, 150, 103));
+        encryptCBC.setText("Encrypt CBC");
+        encryptCBC.setBorderPainted(false);
+        encryptCBC.setContentAreaFilled(false);
+        encryptCBC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                encryptCBCActionPerformed(evt);
             }
         });
 
-        jLabel1.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setOpaque(true);
+        uploadLabel.setBackground(new java.awt.Color(102, 102, 102));
+        uploadLabel.setForeground(new java.awt.Color(0, 0, 0));
+        uploadLabel.setOpaque(true);
 
-        jButton4.setText("jButton4");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        viewEncryption.setForeground(new java.awt.Color(254, 150, 103));
+        viewEncryption.setText("View Encryption");
+        viewEncryption.setBorderPainted(false);
+        viewEncryption.setContentAreaFilled(false);
+        viewEncryption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                viewEncryptionActionPerformed(evt);
             }
         });
 
-        jLabel2.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setOpaque(true);
+        encryptedImageLabel.setBackground(new java.awt.Color(102, 102, 102));
+        encryptedImageLabel.setForeground(new java.awt.Color(0, 0, 0));
+        encryptedImageLabel.setOpaque(true);
 
-        javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
-        kGradientPanel1.setLayout(kGradientPanel1Layout);
-        kGradientPanel1Layout.setHorizontalGroup(
-            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+        titleLabel.setFont(new java.awt.Font("Segoe UI Black", 0, 48)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(254, 150, 103));
+        titleLabel.setText("Image Encryption Demo");
+
+        javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
+        rootPanel.setLayout(rootPanelLayout);
+        rootPanelLayout.setHorizontalGroup(
+            rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rootPanelLayout.createSequentialGroup()
                 .addGap(79, 79, 79)
-                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(46, 46, 46)
-                        .addComponent(jButton2)
-                        .addGap(40, 40, 40)
-                        .addComponent(jButton3))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61))
-            .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                .addGap(333, 333, 333)
-                .addComponent(jButton4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addComponent(uploadPNG)
+                        .addGap(45, 45, 45)
+                        .addComponent(encryptECB)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(encryptCBC))
+                    .addComponent(uploadLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootPanelLayout.createSequentialGroup()
+                        .addComponent(viewEncryption)
+                        .addGap(196, 196, 196))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootPanelLayout.createSequentialGroup()
+                        .addComponent(encryptedImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(titleLabel)
+                .addGap(235, 235, 235))
         );
-        kGradientPanel1Layout.setVerticalGroup(
-            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(66, 66, 66)
-                .addComponent(jButton4)
-                .addContainerGap(90, Short.MAX_VALUE))
+        rootPanelLayout.setVerticalGroup(
+            rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rootPanelLayout.createSequentialGroup()
+                .addContainerGap(47, Short.MAX_VALUE)
+                .addComponent(titleLabel)
+                .addGap(45, 45, 45)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(uploadLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(encryptedImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(uploadPNG)
+                    .addComponent(encryptECB)
+                    .addComponent(encryptCBC)
+                    .addComponent(viewEncryption))
+                .addGap(49, 49, 49))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(rootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(rootPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    
+    /*
+    Allows user to choose and upload their local photos to the GUI
+    */
+    private void uploadPNGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadPNGActionPerformed
         JFileChooser getFile = new JFileChooser();
         getFile.setCurrentDirectory(new File(System.getProperty("user.home")));
         // Filter files
-        FileNameExtensionFilter filter1 = new FileNameExtensionFilter("*.Images", "jpg", "png");
+        FileNameExtensionFilter filter1 = new FileNameExtensionFilter("*.Images", "jpg", "png"); // In place for all files types anyways
         getFile.addChoosableFileFilter(filter1);
         int res = getFile.showSaveDialog(null);
         if (res == JFileChooser.APPROVE_OPTION) {
             selFile1 = getFile.getSelectedFile();
             path1 = selFile1.getAbsolutePath();
-            jLabel1.setIcon(resize(path1));
+            uploadLabel.setIcon(resize(path1)); // Resizes img to label
             System.out.println("1st selFile1 = " + selFile1);
             try {
                 getImg = ImageIO.read(selFile1);
@@ -183,79 +197,64 @@ BytesToRGB btRGB = new BytesToRGB();
             } // End try-catch
             System.out.println(path1);
         } // End if
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_uploadPNGActionPerformed
 
-
-    
-    
-    
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
-          
-            // TODO add your handling code here:
-            btRGB.convertBytesToRGB_ECB();
-            
-        } catch (IOException ex) {
-            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeyException ex) {
-            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BadPaddingException ex) {
-            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+    // Envokes ECB encryption
+    private void encryptECBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_encryptECBActionPerformed
+        if (uploadLabel.getIcon() == null) {
+            JOptionPane.showMessageDialog(rootPanel, "Upload a file first!", "Alert", JOptionPane.WARNING_MESSAGE); // warning message
+        } else {
+            try {
+                btRGB.convertBytesToRGB_ECB();
+            } catch (IOException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
+                Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_encryptECBActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-         try {
-            
-            // TODO add your handling code here:
-            btRGB.convertBytesToRGB_CBC();
-        } catch (IOException ex) {
-            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeyException ex) {
-            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BadPaddingException ex) {
-            Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+    // Envokes CBC encryption
+    private void encryptCBCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_encryptCBCActionPerformed
+        if (uploadLabel.getIcon() == null) {
+            JOptionPane.showMessageDialog(rootPanel, "Upload a file first!", "Alert", JOptionPane.WARNING_MESSAGE); // warning message
+        } else {
+            try {
+                btRGB.convertBytesToRGB_CBC();
+            } catch (IOException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
+                Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_encryptCBCActionPerformed
+    
+    // Displays encrypted img to user
+    private void viewEncryptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewEncryptionActionPerformed
+        if (uploadLabel.getIcon() == null) {
+            JOptionPane.showMessageDialog(rootPanel, "Upload a file and hit an encryption option first!", "Alert", JOptionPane.WARNING_MESSAGE); // warning message
+        } else {
+            revalidate(); // Refresh GUI
+            String fileName = System.getProperty("user.home") + File.separator + "Pictures\\image-enc.png"; // File location on users directory
+            encryptedImageLabel.setIcon(resize(fileName)); // Resize to label
+        }
+    }//GEN-LAST:event_viewEncryptionActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        revalidate();
-        String fileName = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\image-enc.png";
-//        ImageIcon icon = new ImageIcon(fileName);
-//        selFile1 = getFile.getSelectedFile();
-//        path1 = fileName.getAbsolutePath();
-        jLabel2.setIcon(resize(fileName));
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-
-    // Resize Image to JFrame
+    // Resize method for images on jLabels
     public ImageIcon resize(String imgPath) {
         ImageIcon path = new ImageIcon(imgPath);
         Image img = path.getImage();
-        Image newImg = img.getScaledInstance(jLabel1.getWidth(), jLabel1.getHeight()
+        Image newImg = img.getScaledInstance(uploadLabel.getWidth(), uploadLabel.getHeight()
         , Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(newImg);
         return image;
     } // End resize
 
-    public JLabel getjLabel2() {
-        return jLabel2;
-    }
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    public javax.swing.JLabel jLabel2;
-    private keeptoo.KGradientPanel kGradientPanel1;
+    private javax.swing.JButton encryptCBC;
+    private javax.swing.JButton encryptECB;
+    public javax.swing.JLabel encryptedImageLabel;
+    private keeptoo.KGradientPanel rootPanel;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JLabel uploadLabel;
+    private javax.swing.JButton uploadPNG;
+    private javax.swing.JButton viewEncryption;
     // End of variables declaration//GEN-END:variables
 
-
-}
+} // End myGUI class

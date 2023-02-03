@@ -51,7 +51,7 @@ public class BytesToRGB {
         WritableRaster raster = Raster.createPackedRaster(rgbData, width, height, width, new int[]{0xff0000, 0xff00, 0xff}, null); // Using rgbData, width and height are given positions. The bit represnetaion is for RGB values starting with the least significant first
         ColorModel colorModel = new DirectColorModel(24, 0xff0000, 0xff00, 0xff); // Color model of 24 bits per pixel
         BufferedImage img = new BufferedImage(colorModel, raster, false, null); // img uses colorModel and raster to create the png. False for masking and null for properties
-        fileName = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\image-enc.png"; // New file location
+        fileName = System.getProperty("user.home") + File.separator + "Pictures\\image-enc.png"; // New file location
         ImageIO.write(img, "png", new File(fileName)); // Saves as png
           
     } // End convertBytesToRGB_ECB method
@@ -79,7 +79,7 @@ public class BytesToRGB {
         WritableRaster raster = Raster.createPackedRaster(rgbData, width, height, width, new int[]{0xff0000, 0xff00, 0xff}, null);
         ColorModel colorModel = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
         BufferedImage img = new BufferedImage(colorModel, raster, false, null);
-        fileName = "C:\\Users\\Mark Case\\Pictures\\Saved Pictures\\image-enc.png";
+        fileName = System.getProperty("user.home") + File.separator + "Pictures\\image-enc.png";
         ImageIO.write(img, "png", new File(fileName));
         
     } // End convertBytesToRGB_CBC method
