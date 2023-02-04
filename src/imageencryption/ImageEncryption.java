@@ -120,7 +120,7 @@ public class ImageEncryption {
         } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
             Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Generating key for ECB . . .");
+        System.out.println("Generating key for CBC . . .");
         try {
             // Get a key generator object 
             keyGen = KeyGenerator.getInstance("AES");
@@ -165,7 +165,7 @@ public class ImageEncryption {
                 Logger.getLogger(ImageEncryption.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            JOptionPane.showMessageDialog(rootPanel, "Invalid key configuration", "ERROR", JOptionPane.ERROR); // warning message
+            JOptionPane.showMessageDialog(rootPanel, "Invalid key configuration", "ERROR", JOptionPane.ERROR_MESSAGE); // warning message
             return null;
         }
         System.out.println("DONE");

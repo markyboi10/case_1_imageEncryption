@@ -36,10 +36,13 @@ public class BytesToRGB {
         /*
         Step 4. Convert byte array back into an array of newly encrypted rgb values
          */
-        IntBuffer intBuf = ByteBuffer.wrap(encBytes).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer(); // Converts byte array to int array by wrapping the byte array, ordering it, and using asInt to finally convert
+        try {
+        IntBuffer intBuf = ByteBuffer.wrap(encBytes).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
+        // Converts byte array to int array by wrapping the byte array, ordering it, and using asInt to finally convert
         // ^ Litte_ENDIAN = storing least significant byte first, LARGE_ENDIAN does the opposite
         int[] encArray = new int[intBuf.remaining()]; // Creates the int array to equal size of the intBuffer
         intBuf.get(encArray); // Storing elements into int array
+
 
         /*
         Step 5. Use raster to convert rgb data, from the array, into a new file 
@@ -53,7 +56,9 @@ public class BytesToRGB {
         BufferedImage img = new BufferedImage(colorModel, raster, false, null); // img uses colorModel and raster to create the png. False for masking and null for properties
         fileName = System.getProperty("user.home") + File.separator + "Pictures\\image-enc.png"; // New file location
         ImageIO.write(img, "png", new File(fileName)); // Saves as png
-
+        } catch(NullPointerException e) {
+            System.out.println("Incorrect key inputed");
+        }
     } // End convertBytesToRGB_ECB method
 
     /*
@@ -65,6 +70,7 @@ public class BytesToRGB {
         /*
             Step 4. Convert byte array back into an array of newly encrypted rgb values
          */
+        try {
         IntBuffer intBuf = ByteBuffer.wrap(encBytes).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
         int[] encArray = new int[intBuf.remaining()];
         intBuf.get(encArray);
@@ -81,7 +87,9 @@ public class BytesToRGB {
         BufferedImage img = new BufferedImage(colorModel, raster, false, null);
         fileName = System.getProperty("user.home") + File.separator + "Pictures\\image-enc.png";
         ImageIO.write(img, "png", new File(fileName));
-
+        } catch(NullPointerException e) {
+            System.out.println("Incorrect key inputed");
+        }
     } // End convertBytesToRGB_CBC method
 
 } // End BytesToRGB class

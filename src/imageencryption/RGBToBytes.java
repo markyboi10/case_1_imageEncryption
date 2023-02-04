@@ -16,7 +16,7 @@ public class RGBToBytes {
     it converts it to bytes for encryption 
      */
     public static byte[] convertImgData2DToByte(BufferedImage image) {
-
+  
         int width = image.getWidth(); // Width
         int height = image.getHeight(); // Height
         int[][] result = new int[height][width]; // 2D array initialization 
@@ -31,7 +31,8 @@ public class RGBToBytes {
                 result[row][col] = image.getRGB(col, row);
             }
         }
-
+        
+    
         /*
         OLD IMPLEMENTATION, faster but crashing my program on certain pngs. Reason unknown/unsolved
         Step 1. Read in file and use getRGB to read values into a 2D array.

@@ -1,6 +1,7 @@
 package UI;
 
 import imageencryption.BytesToRGB;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -140,38 +141,38 @@ public class myGUI extends javax.swing.JFrame {
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rootPanelLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(testKeys)
-                        .addGap(802, 802, 802))
+                        .addComponent(testKeys, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(790, 790, 790))
                     .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(uploadLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(rootPanelLayout.createSequentialGroup()
                                 .addComponent(uploadPNG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(48, 48, 48)
                                 .addComponent(encryptECB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(29, 29, 29)
-                                .addComponent(encryptCBC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(encryptCBC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(uploadLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(rootPanelLayout.createSequentialGroup()
                                 .addGap(294, 294, 294)
                                 .addComponent(viewEncryption, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(247, 247, 247))
                             .addGroup(rootPanelLayout.createSequentialGroup()
-                                .addGap(129, 129, 129)
+                                .addGap(128, 128, 128)
                                 .addComponent(encryptedImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(130, 130, 130))))))
+                                .addGap(139, 139, 139))))))
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addGap(294, 294, 294)
-                .addComponent(titleLabel)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(338, 338, 338))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(uploadLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
@@ -185,7 +186,9 @@ public class myGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(testKeys)
-                    .addComponent(jLabel1))
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(15, 15, 15))
         );
 
@@ -207,6 +210,7 @@ public class myGUI extends javax.swing.JFrame {
     Allows user to choose and upload their local photos to the GUI
     */
     private void uploadPNGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadPNGActionPerformed
+
         JFileChooser getFile = new JFileChooser();
         getFile.setCurrentDirectory(new File(System.getProperty("user.home")));
         // Filter files
@@ -234,6 +238,11 @@ public class myGUI extends javax.swing.JFrame {
         } else {
             try {
                 btRGB.convertBytesToRGB_ECB();
+                if ((testKeys.getText().length() == 24 && testKeys.getText().endsWith("==")) || testKeys.getText().equals("")) {
+                    JOptionPane.showMessageDialog(rootPanel, "Select 'view encryption' to see result", "INFO", JOptionPane.INFORMATION_MESSAGE); // info message
+                } else {
+                    System.out.println("Try any variaton of 24 characters with the last two being ==. Be sure to omit any spaces!");
+                }
             } catch (IOException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
                 Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -247,6 +256,11 @@ public class myGUI extends javax.swing.JFrame {
         } else {
             try {
                 btRGB.convertBytesToRGB_CBC();
+                if((testKeys.getText().length() == 24 && testKeys.getText().endsWith("==")) || testKeys.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPanel, "Select 'view encryption' to see result", "INFO", JOptionPane.INFORMATION_MESSAGE); // info message
+                } else {
+                    System.out.println("Try any variaton of 24 characters with the last two being ==. Be sure to omit any spaces!");
+                }
             } catch (IOException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
                 Logger.getLogger(myGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
