@@ -4,7 +4,9 @@ import imageencryption.BytesToRGB;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.util.logging.Level;
@@ -60,6 +62,7 @@ public class myGUI extends javax.swing.JFrame {
         titleLabel = new javax.swing.JLabel();
         testKeys = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -132,6 +135,17 @@ public class myGUI extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(254, 150, 103));
         jLabel1.setText("Manual Key Insertion:");
 
+        jButton1.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(254, 150, 103));
+        jButton1.setText("Load Key File");
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
         rootPanelLayout.setHorizontalGroup(
@@ -143,39 +157,37 @@ public class myGUI extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(testKeys, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(790, 790, 790))
+                        .addComponent(testKeys, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(rootPanelLayout.createSequentialGroup()
-                                .addComponent(uploadPNG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(48, 48, 48)
-                                .addComponent(encryptECB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(29, 29, 29)
-                                .addComponent(encryptCBC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(uploadLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(rootPanelLayout.createSequentialGroup()
-                                .addGap(294, 294, 294)
-                                .addComponent(viewEncryption, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(247, 247, 247))
-                            .addGroup(rootPanelLayout.createSequentialGroup()
-                                .addGap(128, 128, 128)
-                                .addComponent(encryptedImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(139, 139, 139))))))
+                        .addComponent(uploadPNG, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                        .addGap(48, 48, 48)
+                        .addComponent(encryptECB, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                        .addGap(29, 29, 29)
+                        .addComponent(encryptCBC, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
+                    .addComponent(uploadLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addGap(294, 294, 294)
+                        .addComponent(viewEncryption, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(247, 247, 247))
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addComponent(encryptedImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(139, 139, 139))))
             .addGroup(rootPanelLayout.createSequentialGroup()
-                .addGap(294, 294, 294)
-                .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(338, 338, 338))
+                .addGap(314, 314, 314)
+                .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, Short.MAX_VALUE)
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(uploadLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                    .addComponent(uploadLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
                     .addComponent(encryptedImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(43, 43, 43)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -183,12 +195,15 @@ public class myGUI extends javax.swing.JFrame {
                     .addComponent(encryptECB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(encryptCBC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(viewEncryption, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(testKeys)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rootPanelLayout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(testKeys)))
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)))
                 .addGap(15, 15, 15))
         );
 
@@ -282,6 +297,29 @@ public class myGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_testKeysActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        testKeys.setText("");
+        JFileChooser getFile = new JFileChooser();
+        getFile.setCurrentDirectory(new File(System.getProperty("user.home")));
+        // Filter files
+        FileNameExtensionFilter filter1 = new FileNameExtensionFilter("*.Images", "jpg", "png"); // In place for all files types anyways
+        getFile.addChoosableFileFilter(filter1);
+        int res = getFile.showSaveDialog(null);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            try (BufferedReader br = new BufferedReader(new FileReader(getFile.getSelectedFile()))) {
+                testKeys.setText(null);
+                String text = null;
+                while ((text = br.readLine()) != null) {
+                    System.out.println("text: " + text);
+                    testKeys.setText(text);
+                }
+                testKeys.setCaretPosition(0);
+            } catch (IOException exp) {
+                JOptionPane.showMessageDialog(rootPanel, "Failed to read file", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Resize method for images on jLabels
     public ImageIcon resize(String imgPath) {
         ImageIcon path = new ImageIcon(imgPath);
@@ -307,6 +345,7 @@ public class myGUI extends javax.swing.JFrame {
     private javax.swing.JButton encryptCBC;
     private javax.swing.JButton encryptECB;
     public javax.swing.JLabel encryptedImageLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     public static keeptoo.KGradientPanel rootPanel;
     public static javax.swing.JTextField testKeys;
